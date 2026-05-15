@@ -17,7 +17,31 @@ export const useUsers = () => {
         }
     };
 
-    useEffect(() => {fetchUsers()}, [])
+    useEffect(() => {fetchUsers()}, []);
 
-    
+    const addUser = async (user: User) => {
+        await api.createUser(user);
+
+        await fetchUsers();
+    }
+
+    const editUser = async (user: User) => {
+        await api.updateUser(user);
+
+        await fetchUsers();
+    }
+
+    const removeUser = async (id: number) => {
+        await api.deleteUser(id);
+
+        await fetchUsers();
+    }
+
+    return {
+        users,
+        loading,
+        addUser,
+        editUser,
+        removeUser
+    }
 }
