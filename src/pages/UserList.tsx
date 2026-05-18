@@ -17,9 +17,9 @@ export const UserList = ({
                 <div key={user.id}>
                     <span>{user.firstName}</span>
 
-                    <button>Edit</button>
+                    <button onClick={() => onEdit(user)}>Edit</button>
 
-                    <button>Delete</button>
+                    <button onClick={() => onDelete(user.id)}>Delete</button>
                 </div>
             ))}
         </div>
