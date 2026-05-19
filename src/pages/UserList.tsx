@@ -12,14 +12,18 @@ export const UserList = ({
     onDelete,
 }: Props) => {
     return (
-        <div>
+        <div className="user-list">
             {users.map(user => (
-                <div key={user.id}>
+                <div key={user.userId}>
+                    <span>{user.userId}</span>
                     <span>{user.firstName}</span>
+                    <span>{user.lastName}</span>
+                    <span>{user.email}</span>
+                    <span>{user.phoneNumber}</span>
 
                     <button onClick={() => onEdit(user)}>Edit</button>
 
-                    <button onClick={() => onDelete(user.id)}>Delete</button>
+                    <button onClick={() => onDelete(user.userId)}>Delete</button>
                 </div>
             ))}
         </div>

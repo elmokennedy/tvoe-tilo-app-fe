@@ -1,17 +1,42 @@
+import { useState } from "react"
+import { User } from "../types/user";
+
 interface Props {
-    onSubmit: (user: { firstName: string, lastName: string, email: string}) => Promise<void>
+    onSubmit: (user: User) => Promise<void>
 }
 
 export const UserForm = ({
     onSubmit,
 }: Props) => {
 
-    const [firstName, setFirstName] = useState("")
-    const [lastName, setLastName] = useState("")
-    const [email, setEmail] = useState("")
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+
+    const handleSubmit = async(
+        e: React.FormEvent
+    ) => {
+        e.preventDefault();
+
+        const user: User = {
+            userId: 0,
+            firstName,
+            lastName,
+            email,
+            phoneNumber,
+        };
+
+        await onSubmit(user);
+
+        setFirstName("");
+        setLastName("");
+        setEmail("");
+        setPhoneNumber("");
+    };
 
     return(
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleSubmit}>
             <div>
                 <input
                     placeholder="First name"
@@ -32,6 +57,17 @@ export const UserForm = ({
                     onChange = {(e) => setEmail(e.target.value)}
                 />
             </div>
+
+            <div>
+                <input
+                    placeholder="Phone number"
+                    onChange = {(e) => setPhoneNumber(e.target.value)}
+                />
+            </div>
+
+            <button type="submit">
+                Add user
+            </button>
 
         </form>
     )
