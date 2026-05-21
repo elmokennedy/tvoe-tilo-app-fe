@@ -19,5 +19,5 @@ export const updateUser = async (user: User) => {
 }
 
 export const deleteUser = async (id: number) => {
-    await axios.delete(`{API_URL}/${id}`)
+    await axios.delete(`${API_URL}/${id}`)
 }

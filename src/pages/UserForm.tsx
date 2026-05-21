@@ -6,7 +6,7 @@ interface Props {
 }
 
 export const UserForm = ({
-    onSubmit,
+    onSubmit
 }: Props) => {
 
     const [firstName, setFirstName] = useState("");
@@ -24,7 +24,7 @@ export const UserForm = ({
             firstName,
             lastName,
             email,
-            phoneNumber,
+            phoneNumber
         };
 
         await onSubmit(user);

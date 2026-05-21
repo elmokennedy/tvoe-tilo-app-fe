@@ -1,9 +1,10 @@
 import { User } from "../types/user";
+import { UserItem } from "./UserItem";
 
 interface Props {
     users: User[];
-    onEdit: (user: User) => void;
-    onDelete: (id: number) => void;
+    onEdit: (user: User) => Promise<void>;
+    onDelete: (id: number) => Promise<void>;
 };
 
 export const UserList = ({
@@ -14,17 +15,12 @@ export const UserList = ({
     return (
         <div className="user-list">
             {users.map(user => (
-                <div key={user.userId}>
-                    <span>{user.userId}</span>
-                    <span>{user.firstName}</span>
-                    <span>{user.lastName}</span>
-                    <span>{user.email}</span>
-                    <span>{user.phoneNumber}</span>
-
-                    <button onClick={() => onEdit(user)}>Edit</button>
-
-                    <button onClick={() => onDelete(user.userId)}>Delete</button>
-                </div>
+                <UserItem
+                    key={user.userId}
+                    user={user}
+                    onEdit={onEdit}
+                    onDelete={onDelete}
+                />
             ))}
         </div>
     )
