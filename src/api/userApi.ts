@@ -8,7 +8,7 @@ export const getUsers = async (): Promise<User[]> => {
     return response.data;
 }
 
-export const createUser = async (user: User) => {
+export const createUser = async (user: User) : Promise <any> => {
     const response = await axios.post(API_URL, user);
     return response.data;
 }

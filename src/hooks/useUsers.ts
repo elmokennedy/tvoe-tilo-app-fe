@@ -19,8 +19,13 @@ export const useUsers = () => {
 
     useEffect(() => {fetchUsers()}, []);
 
-    const addUser = async (user: User) => {
-        await api.createUser(user);
+    const addUser = async (user: User) : Promise <any> => {
+        var response = await api.createUser(user);
+
+        if (!response.ok) {
+            const data = await response.json();
+            return data;
+        }
 
         await fetchUsers();
     }

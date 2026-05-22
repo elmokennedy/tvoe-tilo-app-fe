@@ -1,20 +1,39 @@
 import { useState } from "react"
 import { User } from "../types/user";
+import { useForm } from "react-hook-form";
 
 interface Props {
-    onSubmit: (user: User) => Promise<void>
+    onSubmit: (user: User) => Promise<any>
 }
 
 export const UserForm = ({
     onSubmit
 }: Props) => {
 
+    const { 
+        register, 
+        handleSubmit, 
+        setError, 
+        formState: { errors, isSubmitting } 
+    } = useForm({ 
+        defaultValues: {
+            firstName: "",
+            lastName: "",
+            email: "",
+            phoneNumber: ""
+        }
+    });
+
+    const onSubmitNew = async (values) => {
+        var response = await onSubmit(values);
+    }
+
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
 
-    const handleSubmit = async(
+    const handleSubmitOLD = async(
         e: React.FormEvent
     ) => {
         e.preventDefault();
