@@ -10,6 +10,9 @@ export const UserForm = ({
     onSubmit
 }: Props) => {
 
+    const [errors, setErrors] = useState({});
+    const [isSubmitting , setIsSubmitting ] = useState(false);
+
     const { 
         register, 
         handleSubmit, 
@@ -24,8 +27,12 @@ export const UserForm = ({
         }
     });
 
-    const onSubmitNew = async (values) => {
+    const onSubmitNew = async (values : User) => {
         var response = await onSubmit(values);
+
+        if (!response.ok) {
+            const data = await response.json();
+        }
     }
 
     const [firstName, setFirstName] = useState("");

@@ -22,12 +22,9 @@ export const useUsers = () => {
     const addUser = async (user: User) : Promise <any> => {
         var response = await api.createUser(user);
 
-        if (!response.ok) {
-            const data = await response.json();
-            return data;
-        }
-
         await fetchUsers();
+
+        return response;
     }
 
     const editUser = async (user: User) => {
