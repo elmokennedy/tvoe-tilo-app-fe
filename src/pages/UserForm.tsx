@@ -32,6 +32,10 @@ export const UserForm = ({
 
         if (!response.ok) {
             const data = await response.json();
+
+            if (data.field) {
+                setError(data.field, { message: data.message });
+            }
         }
     }
 
