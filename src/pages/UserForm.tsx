@@ -10,14 +10,11 @@ export const UserForm = ({
     onSubmit
 }: Props) => {
 
-    const [errors, setErrors] = useState({});
-    const [isSubmitting , setIsSubmitting ] = useState(false);
-
     const { 
         register, 
         handleSubmit, 
         setError, 
-        formState: { errors, isSubmitting } 
+        formState: { errors } 
     } = useForm({ 
         defaultValues: {
             firstName: "",
@@ -27,74 +24,96 @@ export const UserForm = ({
         }
     });
 
-    const onSubmitNew = async (values : User) => {
-        var response = await onSubmit(values);
-
-        if (!response.ok) {
-            const data = await response.json();
-
-            if (data.field) {
-                setError(data.field, { message: data.message });
-            }
-        }
-    }
-
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
 
-    const handleSubmitOLD = async(
-        e: React.FormEvent
-    ) => {
-        e.preventDefault();
-
-        const user: User = {
+    const onSubmitInner = async (values) => {
+        const newUser: User = {
             userId: 0,
-            firstName,
-            lastName,
-            email,
-            phoneNumber
+            firstName: values.firstName,
+            lastName: values.lastName,
+            email: values.email,
+            phoneNumber: values.phoneNumber
         };
 
-        await onSubmit(user);
+        var response = await onSubmit(newUser);
 
-        setFirstName("");
-        setLastName("");
-        setEmail("");
-        setPhoneNumber("");
-    };
+        if (!response.ok) {
+            const data = await response.json();
+
+            console.log(data);
+
+            if (data.field) {
+                setError(data.field, { message: data.message });
+            }
+        } else{
+            setFirstName("");
+            setLastName("");
+            setEmail("");
+            setPhoneNumber("");
+        }
+    }
 
     return(
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmitInner)}>
             <div>
                 <input
                     placeholder="First name"
+                    {...register("firstName", {
+                        required: "First name is required"
+                    })}
                     onChange = {(e) => setFirstName(e.target.value)}
                 />
+                {errors.firstName && (
+                    <p>{errors.firstName.message}</p>
+                )}
             </div>
 
             <div>
                 <input
                     placeholder="Last name"
+                    {...register("lastName", {
+                        required: "Last name is required"
+                    })}
                     onChange = {(e) => setLastName(e.target.value)}
                 />
+                {errors.lastName && (
+                    <p>{errors.lastName.message}</p>
+                )}
             </div>
 
             <div>
                 <input
                     placeholder="Email"
+                    {...register("email", {
+                        required: "Email is required",
+                        pattern: {
+                            value: /^\S+@\S+$/i,
+                            message: "Invalid email address"
+                        }
+                    })}
                     onChange = {(e) => setEmail(e.target.value)}
                 />
+                {errors.email && (
+                    <p>{errors.email.message}</p>
+                )}
             </div>
 
             <div>
                 <input
                     placeholder="Phone number"
+                    {...register("phoneNumber", {
+                        required: "Phone number is required"
+                    })}
                     onChange = {(e) => setPhoneNumber(e.target.value)}
                 />
+                {errors.phoneNumber && (
+                    <p>{errors.phoneNumber.message}</p>
+                )}
             </div>
-
+            
             <button type="submit">
                 Add user
             </button>
